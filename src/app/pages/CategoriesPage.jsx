@@ -3,48 +3,76 @@ import BreadCrumb from "../componentWeb/BreadCrumb";
 import SearchCategories from "../componentWeb/SearchCategories";
 import LayoutWithTopMovie from "../Layout/LayoutWithTopMovie";
 import Pagination from "../common/Pagination";
-import { useGetQueryParams } from "../../hooks";
+import { useCurrentPath, useGetQueryParams } from "../../hooks";
 import { dicoveryMovies } from "../../services/movieServices";
 import { useNavigate, useParams } from "react-router-dom";
-import { linkToGenresMoviePage } from "../../ultis/convertRouters";
+import {
+  linkToCountriesMoviePage,
+  linkToGenresMoviePage,
+} from "../../ultis/convertRouters";
 import MovieBox from "../componentWeb/MovieBox";
 import { dicoverTvShows } from "../../services/tvShowServices";
+import { NAME_PAGES, ROUTER_PATH, TYPE_API } from "../../constanst.js";
+import { convertOptionSearch } from "../../ultis";
 
-const convertOptionSearch = ({ sort_by, region, year, with_genres, page }) => {
-  let optionSearch = {};
-  if (sort_by) optionSearch.sort_by = sort_by;
-  if (with_genres) optionSearch.with_genres = with_genres;
-  if (page) optionSearch.page = page;
-  if (region) optionSearch.region = region;
-  if (year) optionSearch.year = Number(year);
-  return optionSearch;
+const nameBreadcrumb = (nameCategory, isMovie, currentPath) => {
+  let name = nameCategory;
+  switch (currentPath) {
+    case ROUTER_PATH.COUNTRIES:
+      name = `Phim ${name}`;
+      break;
+
+    default:
+      break;
+  }
+
+  return isMovie ? name : `Phim ${name}`;
 };
 
 function CategoriesPage() {
   const queryUrl = useGetQueryParams();
-  const { name: nameCategory } = queryUrl;
+  const currentPath = useCurrentPath();
+
+  const { name: nameCategory = NAME_PAGES.TV_SHOW } = queryUrl;
   let { id: categoryId } = useParams();
   const navigate = useNavigate();
-  console.log('categoryId', categoryId);
 
   const [resultMovies, setResultMovies] = useState([]);
   const [pagination, setPagination] = useState({});
-
+  const isMovie = Number(categoryId) !== 0;
   const breadcrumb = useRef([
     {
-      name: nameCategory,
+      name: "",
     },
   ]);
 
   const fetchSearchMovies = () => {
-    console.log('categoryId', categoryId);
-    const getDiscoverApi = categoryId !== '0' ? dicoveryMovies : dicoverTvShows
-    getDiscoverApi(
-      convertOptionSearch({
-        ...queryUrl,
-        with_genres: categoryId + (queryUrl.with_genres ?  `,${queryUrl.with_genres}`: ""),
-      })
-    ).then((data) => {
+    const getDiscoverApi = categoryId !== "0" ? dicoveryMovies : dicoverTvShows;
+    let options = {
+      ...queryUrl,
+
+      typeApi: isMovie ? TYPE_API.TV_SHOWS : TYPE_API.MOVIE,
+    };
+
+    switch (currentPath) {
+      case ROUTER_PATH.COUNTRIES:
+        options = {
+          ...options,
+          region: categoryId,
+        };
+        break;
+
+      default:
+        options = {
+          ...options,
+          with_genres:
+            (isMovie ? "" : categoryId) +
+            (queryUrl.with_genres ? `,${queryUrl.with_genres}` : ""),
+        };
+        break;
+    }
+
+    getDiscoverApi(convertOptionSearch(options)).then((data) => {
       setResultMovies(data.results);
       setPagination({
         page: data.page,
@@ -55,29 +83,48 @@ function CategoriesPage() {
   };
 
   useLayoutEffect(() => {
+    breadcrumb.current = [
+      {
+        name: nameBreadcrumb(nameCategory, isMovie, currentPath),
+      },
+    ];
     fetchSearchMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId, queryUrl]);
+  }, [categoryId, queryUrl, currentPath, isMovie, currentPath]);
 
-  const handleChangePage = useCallback((targetPage) => {
-    navigate(linkToGenresMoviePage(nameCategory, categoryId, {
-      ...convertOptionSearch({
-        ...queryUrl,
-        page: targetPage,
-        with_genres: queryUrl?.with_genres || "",
-      }),
-      name: nameCategory,
-    }))
-    // window.location.href = linkToGenresMoviePage(nameCategory, categoryId, {
-    //   ...convertOptionSearch({
-    //     ...queryUrl,
-    //     page: targetPage,
-    //     with_genres: queryUrl?.with_genres || "",
-    //   }),
-    //   name: nameCategory,
-    // });
+  const handleChangePage = useCallback(
+    (targetPage, querySubmit) => {
+      let linkConvert = "";
+      const newQuery = querySubmit ? querySubmit : queryUrl;
+
+      const options = convertOptionSearch({
+        ...newQuery,
+        page: targetPage || newQuery.page,
+        with_genres: newQuery?.with_genres || "",
+        typeApi: isMovie ? TYPE_API.TV_SHOWS : TYPE_API.MOVIE,
+      });
+
+      switch (currentPath) {
+        case ROUTER_PATH.COUNTRIES:
+          linkConvert = linkToCountriesMoviePage(nameCategory, categoryId, {
+            ...options,
+            name: nameCategory,
+          });
+          break;
+
+        default:
+          linkConvert = linkToGenresMoviePage(nameCategory, categoryId, {
+            ...options,
+            name: nameCategory,
+          });
+          break;
+      }
+
+      navigate(linkConvert);
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [categoryId, nameCategory, queryUrl, currentPath, isMovie]
+  );
 
   const { page, total_pages } = pagination;
 
@@ -87,7 +134,7 @@ function CategoriesPage() {
       <LayoutWithTopMovie>
         <SearchCategories
           queryUrl={queryUrl}
-          convertOptionSearch={convertOptionSearch}
+          onSubmit={(val) => handleChangePage(undefined, val)}
         />
         <section className="categories-page cate-movie">
           <div className="row row-grid">
@@ -97,7 +144,7 @@ function CategoriesPage() {
                 key={item.id}
                 id={item.id}
                 pathImage={item.poster_path}
-                name={item.title}
+                name={item.title || item.name}
                 voteAverage={item.vote_average}
               />
             ))}

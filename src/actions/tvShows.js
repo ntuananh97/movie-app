@@ -1,5 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchPopularTvShows, fetchTopRatingTvShows, fetchOnTheAirTvShows } from "../services/tvShowServices";
+import {
+  fetchPopularTvShows,
+  fetchTopRatingTvShows,
+  fetchOnTheAirTvShows,
+  fetchGenresTvShow,
+} from "../services/tvShowServices";
 
 export const fetchPopularTvShowsAction = createAsyncThunk(
   "tvShows/fetchPopularTvShows",
@@ -28,3 +33,11 @@ export const fetchOnTheAirTvShowsAction = createAsyncThunk(
   }
 );
 
+export const fetchGenresTvShowsAction = createAsyncThunk(
+  "tvShows/fetchGenresTvShow",
+  async (options) => {
+    const response = await fetchGenresTvShow(options);
+
+    return response;
+  }
+);

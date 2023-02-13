@@ -6,55 +6,57 @@ import WatchMoviePage from "./pages/WatchMoviePage";
 import ActorPage from "./pages/ActorPage";
 import DirectorPage from "./pages/DirectorPage";
 import TagsPage from "./pages/TagsPage";
+import { ROUTER_PATH } from "../constanst.js";
+
 
 
 export const publicRouter = [
   {
-    path: "/",
+    path: ROUTER_PATH.HOME,
     element: <HomePage />,
   },
   {
-    path: "/the-loai/:name/:id",
+    path: ROUTER_PATH.CATEGORIES,
     element: <CategoriesPage />,
   },
   {
-    path: "/tim-kiem",
+    path: ROUTER_PATH.SEARCH,
     element: <SearchPage />,
   },
   {
-    path: `/phim/:name/:id`,
+    path: ROUTER_PATH.DETAIL_MOVIE,
     element: <DetailMoviePage />,
   },
   {
-    path: `/quoc-gia/:name/:code`,
+    path: ROUTER_PATH.COUNTRIES,
+    element: <CategoriesPage />,
+  },
+  {
+    path: ROUTER_PATH.NEW_MOVIE,
     element: <DetailMoviePage />,
   },
   {
-    path: `/phim-moi`,
+    path: ROUTER_PATH.SINGLE_MOVIE,
     element: <DetailMoviePage />,
   },
   {
-    path: `/phim-le`,
+    path: ROUTER_PATH.ON_PLAYING_MOVIE,
     element: <DetailMoviePage />,
   },
   {
-    path: `/phim-chieu-rap`,
-    element: <DetailMoviePage />,
-  },
-  {
-    path: "/xem-phim",
+    path: ROUTER_PATH.WATCH_MOVIE,
     element: <WatchMoviePage />,
   },
   {
-    path: "/dien-vien",
+    path: ROUTER_PATH.ACTOR,
     element: <ActorPage />,
   },
   {
-    path: "/dao-dien",
+    path: ROUTER_PATH.DIRECTOR,
     element: <DirectorPage />,
   },
   {
-    path: "/tags",
+    path: ROUTER_PATH.TAGS,
     element: <TagsPage />,
   },
 ];

@@ -1,58 +1,74 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { COUNTRIES, SORT_MOVIES } from "../../constanst.js";
+import { COUNTRIES, SORT_MOVIES, SORT_TV_SHOWS } from "../../constanst.js";
 import { selectGenresMovies } from "../../selector/movieSelector";
 import { renderYearList } from "../../ultis/index.js";
 import Select from "../common/Select";
 import PropTypes from "prop-types";
-import { linkToGenresMoviePage } from "../../ultis/convertRouters.js";
 import { useParams } from "react-router-dom";
+import { useGetGenresTvShows } from "../../hooks/tvShow.js";
 
-const YEAR_LIST = renderYearList().map(x => ({id: x, name: x.toString()}));
+const YEAR_LIST = renderYearList().map((x) => ({ id: x, name: x.toString() }));
 
-function SearchCategories({queryUrl = {}, convertOptionSearch}) {
-  const { list: genreList } = useSelector((state) => selectGenresMovies(state));
-  const [queryFilter, setqueryFilter] = useState(queryUrl)
+function SearchCategories({ queryUrl = {}, onSubmit }) {
   let { id: categoryId } = useParams();
+  const isTvShow = Number(categoryId) === 0;
 
-  const handleChangeSelect = (val, name) => {
-    setqueryFilter({
-      ...queryFilter,
-      [name]: val
-    })
-  }
+  const { list: genresMovieList } = useSelector((state) =>
+    selectGenresMovies(state)
+  );
+  const { list: genresTvShowList = [] } = useGetGenresTvShows(isTvShow);
+  const [queryFilter, setqueryFilter] = useState(queryUrl);
+
+  const sortOptionSelect = useMemo(
+    () => (isTvShow ? SORT_TV_SHOWS : SORT_MOVIES),
+    [isTvShow]
+  );
+  const genresOptionSelect = useMemo(
+    () => (isTvShow ? genresTvShowList : genresMovieList),
+    [isTvShow, genresTvShowList, genresMovieList]
+  );
+
+  useEffect(() => {
+    setqueryFilter(queryUrl);
+  }, [queryUrl]);
+
+  const handleChangeSelect = useCallback(
+    (val, name) => {
+      setqueryFilter({
+        ...queryFilter,
+        [name]: val,
+      });
+    },
+    [queryFilter]
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    window.location.href = linkToGenresMoviePage(queryFilter.name, categoryId, {
-      ...convertOptionSearch({
-        ...queryFilter,
-        with_genres: queryFilter?.with_genres || "",
-      }),
-      name: queryFilter.name,
-    });
-  }
+    onSubmit?.(queryFilter);
+  };
 
   return (
     <div className="search-categories">
-      <form className="form-filter flex-a-c" onSubmit={e => handleSubmit(e)}>
+      <form className="form-filter flex-a-c" onSubmit={(e) => handleSubmit(e)}>
         <div className="form-filter__item">
           <Select
             name="sort_by"
             id="sort_by"
-            options={SORT_MOVIES}
+            options={sortOptionSelect}
             placeholder="Sắp xếp"
-            onChange={val => handleChangeSelect(val, 'sort_by')}
+            onChange={(val) => handleChangeSelect(val, "sort_by")}
             value={queryFilter.sort_by || ""}
+            isTvShow={isTvShow}
           />
         </div>
         <div className="form-filter__item">
           <Select
             name="genre"
             id="genre"
-            options={genreList}
+            options={genresOptionSelect}
             placeholder="Thể Loại"
-            onChange={val => handleChangeSelect(val, 'with_genres')}
+            onChange={(val) => handleChangeSelect(val, "with_genres")}
             value={queryFilter.with_genres || ""}
           />
         </div>
@@ -62,7 +78,7 @@ function SearchCategories({queryUrl = {}, convertOptionSearch}) {
             id="country"
             options={COUNTRIES}
             placeholder="Quốc gia"
-            onChange={val => handleChangeSelect(val, 'region')}
+            onChange={(val) => handleChangeSelect(val, "region")}
             value={queryFilter.region || ""}
           />
         </div>
@@ -73,7 +89,7 @@ function SearchCategories({queryUrl = {}, convertOptionSearch}) {
             options={YEAR_LIST}
             placeholder="Năm"
             className="form-filter__select--year"
-            onChange={val => handleChangeSelect(val, 'year')}
+            onChange={(val) => handleChangeSelect(val, "year")}
             value={queryFilter.year || ""}
           />
         </div>
@@ -86,8 +102,8 @@ function SearchCategories({queryUrl = {}, convertOptionSearch}) {
 }
 
 SearchCategories.prototype = {
-  convertOptionSearch: PropTypes.func,
   queryUrl: PropTypes.object,
-}
+  onSubmit: PropTypes.func,
+};
 
 export default SearchCategories;

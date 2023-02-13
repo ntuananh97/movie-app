@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import configApi from "../api/apiConfig";
+import { TYPE_API } from "../constanst.js";
 
 /**
  * @param {string} path
@@ -38,3 +39,30 @@ export function guidGenerator() {
   };
   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
+
+/**
+ * @param {{sort_by: string, region: string, year: number | string, with_genres: string,
+ * typeApi: string, page: number, name: string}} options
+ * @returns {Object}
+ */
+export const convertOptionSearch = (options) => {
+  const { sort_by, region, year, with_genres, page, typeApi,  } = options
+  const isMovieType = TYPE_API.MOVIE  === typeApi;
+  const optionSearchKey = {
+    year: isMovieType ? 'year' : 'first_air_date_year',
+    sort_by: 'sort_by',
+    page: 'page',
+    with_genres: 'with_genres',
+    name: 'name',
+    region: isMovieType ? 'region' : 'watch_region'
+  }
+
+  let optionSearch = {};
+  if (sort_by) optionSearch[optionSearchKey.sort_by] = sort_by;
+  if (with_genres && with_genres !== "0") optionSearch[optionSearchKey.with_genres] = with_genres;
+  if (page) optionSearch[optionSearchKey.page] = page;
+  if (region) optionSearch[optionSearchKey.region] = region.toLocaleUpperCase();
+  // if (name && isMovieType) optionSearch[optionSearchKey.name] = name;
+  if (year) optionSearch[optionSearchKey.year] = Number(year);
+  return optionSearch;
+};

@@ -39,6 +39,17 @@ export const COUNTRIES = [
     },
 ]
 
+export const NAME_PAGES = {
+    HOME: 'Trang chủ',
+    GENRES: 'Thể loại',
+    COUNTRIES: 'Quốc gia',
+    NEW_MOVIE: 'Phim mới',
+    SINGLE_MOVIE: 'Phim lẻ',
+    ON_PLAYING_MOVIE: 'Phim chiếu rạp',
+    TV_SHOW: 'Tv Show',
+}
+
+
 export const TYPE_NAVIGATION = {
     categories: 'the-loai',
     countries: 'quoc-gia',
@@ -48,12 +59,12 @@ export const TYPE_NAVIGATION = {
 export const NAVIGATION = [
     {
         id: 1,
-        name: "Trang chủ",
+        name: NAME_PAGES.HOME,
         linkParent: '/',
     },
     {
         id: 2,
-        name: "Thể loại",
+        name: NAME_PAGES.GENRES,
         linkParent: '',
         hasChildren: true,
         specialListChildClassPC: 'span-1',
@@ -66,7 +77,7 @@ export const NAVIGATION = [
     },
     {
         id: 3,
-        name: "Quốc gia",
+        name: NAME_PAGES.COUNTRIES,
         linkParent: '',
         hasChildren: true,
         specialListChildClassPC: 'span-2',
@@ -79,7 +90,7 @@ export const NAVIGATION = [
     },
     {
         id: 4,
-        name: "Phim mới",
+        name: NAME_PAGES.NEW_MOVIE,
         linkParent: linkToNewMoviePage(),
         hasChildren: true,
         specialListChildClassPC: 'span-3',
@@ -92,18 +103,18 @@ export const NAVIGATION = [
     },
     {
         id: 5,
-        name: "Phim lẻ",
+        name: NAME_PAGES.SINGLE_MOVIE,
         linkParent: linkToMoviesPage,
     },
     {
         id: 6,
-        name: "Phim chiếu rạp",
+        name: NAME_PAGES.ON_PLAYING_MOVIE,
         linkParent: linkToOnPlayingMoviePage,
     },
     {
         id: 7,
-        name: "TV Show",
-        linkParent: linkToGenresMoviePage("TV Show", 0),
+        name: NAME_PAGES.TV_SHOW,
+        linkParent: linkToGenresMoviePage(NAME_PAGES.TV_SHOW, 0),
     },
 ]
 
@@ -125,6 +136,43 @@ export const SORT_MOVIES = [
         id: 'revenue.desc'
     },
 ]
+
+export const SORT_TV_SHOWS = [
+    {
+        name: 'Năm sản xuất',
+        id: 'first_air_date.desc'
+    },
+    {
+        name: 'Đánh giá',
+        id: 'vote_average.desc'
+    },
+    {
+        name: 'Độ phổ biến',
+        id: 'popularity.desc'
+    }
+   
+]
+
+export const TYPE_API = {
+    MOVIE: 'movie',
+    TV_SHOWS: 'tv_shows'
+}
+
+export const ROUTER_PATH = {
+    HOME: '/',
+    CATEGORIES: '/the-loai/:name/:id',
+    SEARCH: '/tim-kiem',
+    DETAIL_MOVIE: '/phim/:name/:id',
+    COUNTRIES: '/quoc-gia/:name/:id',
+    NEW_MOVIE: '/phim-moi',
+    SINGLE_MOVIE: '/phim-le',
+    ON_PLAYING_MOVIE: '/phim-chieu-rap',
+    WATCH_MOVIE: '/xem-phim',
+    ACTOR: '/dien-vien',
+    DIRECTOR: '/dao-dien',
+    TAGS: '/tags',
+}
+
 
 
 

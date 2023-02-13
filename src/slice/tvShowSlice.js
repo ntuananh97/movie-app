@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchOnTheAirTvShowsAction, fetchPopularTvShowsAction, fetchTopRatingTvShowsAction } from "../actions/tvShows";
+import { fetchGenresTvShowsAction, fetchOnTheAirTvShowsAction, fetchPopularTvShowsAction, fetchTopRatingTvShowsAction } from "../actions/tvShows";
 
 // function rejectAction  (state) {
 //   state.loading = false
@@ -17,6 +17,11 @@ const initialState = {
     pagination: {}
   },
   onTheAirTvShows: {
+    loading: true,
+    list: [],
+    pagination: {}
+  },
+  genresTvShows: {
     loading: true,
     list: [],
     pagination: {}
@@ -58,6 +63,15 @@ export const tvShowSlice = createSlice({
     });
     builder.addCase(fetchOnTheAirTvShowsAction.rejected, (state, action) => {
       state.onTheAirTvShows.loading = false;
+
+    });
+    // genres
+    builder.addCase(fetchGenresTvShowsAction.fulfilled, (state, action) => {
+      state.genresTvShows.loading = false;
+      state.genresTvShows.list = action.payload.genres
+    });
+    builder.addCase(fetchGenresTvShowsAction.rejected, (state, action) => {
+      state.genresTvShows.loading = false;
 
     });
   },

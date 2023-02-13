@@ -19,7 +19,10 @@ export const linkToSearchMoviePage = (options) => `/tim-kiem?${objectToParmas(op
  * @param {string} code
  * @returns {string}
  */
-export const linkToCountriesMoviePage = (name, code) => `/quoc-gia/${(encodeUrl(name))}/${code}`
+export const linkToCountriesMoviePage = (name, id, options = {}) => {
+    const query = objectToParmas(options)
+    return `/quoc-gia/${(encodeUrl(name))}/${id}${query ? '?' : ''}${query}`
+}
 
 /**
  * @returns {string}

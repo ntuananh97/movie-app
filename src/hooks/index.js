@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { matchRoutes, useLocation, useSearchParams } from "react-router-dom";
+import { publicRouter } from "../app/routers";
 
 export const usePrevious = (value) => {
     const ref = useRef()
@@ -60,4 +61,11 @@ export const useGetQueryParams = () => {
   const [searchParams] = useSearchParams();
   const queryParams = useMemo(() => Object.fromEntries([...searchParams]), [searchParams])
   return queryParams
+}
+
+export const useCurrentPath = () => {
+  const location = useLocation()
+  const [{ route }] = matchRoutes(publicRouter, location)
+
+  return route.path
 }
