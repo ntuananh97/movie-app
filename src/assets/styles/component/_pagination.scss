@@ -1,0 +1,23 @@
+.pagination {
+    &__item {
+      margin: 3px;
+    }
+  
+    &__link {
+      border: 1px solid #4c4c4c;
+      background: #3a3a3a;
+      padding: 5px 8px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+  
+      &.active {
+        border-color: #ff6901;
+        color: #ff9601;
+      }
+    }
+  
+    &__dots {
+      font-size: 14px;
+    }
+  }

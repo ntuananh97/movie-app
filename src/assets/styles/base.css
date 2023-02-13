@@ -43,7 +43,7 @@ button {
 }
 
 /* Flex  */
-.flex-space-b {
+.flex-s-b {
     display: flex;
     justify-content: space-between;
 }
@@ -68,6 +68,9 @@ button {
     align-items: center;
     justify-content: space-between;
 }
+.flex-wr {
+    flex-wrap: wrap;
+}
 /* -------------- */
 
 .p-c {
@@ -77,14 +80,12 @@ button {
     transform: translate(-50%, -50%);
 }
 
-
-
 /* -----------------Responsive-------------------------- */
 
 
 @media only screen and (min-width: 1024px) {
     .container {
-        max-width: 980px;
+        max-width: 1015px;
     }
     .hidden-pc {
         display: none;
@@ -99,9 +100,15 @@ button {
     .text-c-m-t {
         text-align: center;
     }
+
     .container {
-        max-width: 600px;
+        max-width: unset;
+        width: auto;
+        padding: 0 8px;
     }
+
+   
+   
 }
 
 /* Mobile  */

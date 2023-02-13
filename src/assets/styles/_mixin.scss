@@ -1,0 +1,8 @@
+@mixin gap-slick-slide($gap) {
+  .slick-slide > div {
+    margin: 0 $gap;
+  }
+  .slick-list {
+    margin: 0 -$gap;
+  }
+}

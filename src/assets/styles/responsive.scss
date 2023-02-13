@@ -1,0 +1,271 @@
+/* Small pc  */
+@media only screen and (min-width: 1024px) and (max-width: 1279px) {}
+
+/* Tablet mobile  */
+@media only screen and (max-width: 1023.98px) {
+  .header {
+
+    &-main, &-menu {
+      display: none;
+    }
+
+   
+
+    &-mobile {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+
+      &__bar, &__search-icon {
+        color: #fff;
+        font-size: 25px;
+      }
+
+      &__bar {
+        position: relative;
+        left: 0;
+        transition: all 0.3s;
+        z-index: 2;
+
+        &.active {
+          left: 240px;
+        }
+      }
+
+
+    }
+
+    &-logo {
+      height: auto;
+
+      > img {
+        width: 120px;
+      }
+    }
+  }
+
+  .menu-mobile {
+    position: fixed;
+    top: 0;
+    left: -240px;
+    z-index: 10;
+
+    height: 100vh;
+    width: 240px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: #2d2d2d;
+    transition: 0.3s all;
+
+    &.active {
+      left: 0;
+    }
+
+    &__item-link {
+      text-transform: uppercase;
+      font-weight: normal;
+      padding: 15px 11.6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+      color: #fff;
+
+      &.active {
+        color: #c58560;
+      }
+    
+    }
+
+    &__item {
+    
+      &:first-child > a {
+        border-bottom: 3px solid #ccc;
+      }
+    }
+
+    &__item-link-lv1 {
+      display: block;
+      padding: 10px  10px 10px 20px;
+      text-transform: none;
+      font-size: 14px;
+    }
+  }
+
+  .search-mobile {
+    position: absolute;
+    top: 26px;
+    left: 0;
+    right: 0;
+    z-index: 11;
+
+    > form {
+      position: relative;
+      z-index: 12;
+    }
+  
+    .input-search {
+      width: 100%;
+      border: 1px solid #353535;
+      border-radius: 4px;
+      padding: 5px;
+      background: #202020 linear-gradient(#666, #333);
+      justify-content: flex-start;
+  
+      > input {
+        width: 93%;
+        border: none;
+        outline: none;
+        color: #fff;
+      }
+  
+      > i {
+        position: unset;
+        color: #fff;
+        font-size: 14px;
+      }
+    }
+  
+    .suggestions  {
+      width: 100%;
+      &__strong, &__item.last > a, &__item.type {
+          color: #dacb46;
+      }
+    }
+  }
+
+  .hot-movie .movie-box {
+    width: 30%;
+  }  
+
+  .cate-movie {
+
+    &__heading {
+      margin-bottom: 10px;
+    display: block;
+
+    }
+
+    .tab-movie {
+      padding: 12px 5px;
+    }
+
+    .movie-box {
+      margin-bottom: 10px;
+    }
+  }
+
+ 
+
+  .movie-box {
+    height: auto;
+
+    // &__img {
+    //   height: 335px !important;
+    // }
+  }
+
+  .footer {
+    &__main {
+      flex-direction: column;
+    }
+
+    &__desc, &__info {
+      width: 100%;
+    }
+
+    &__info {
+      padding: 2%;
+    }
+  }
+
+  .recommend-movie {
+    .movie-box {
+      width: 32.5%;
+      flex: unset;
+    }
+
+    .hot-movie-content {
+      gap: unset;
+    }
+  }
+
+  .watch-movie {
+    .btn--watch-movie {
+      display: none;
+
+      &.ad-close {
+        display: block;
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 741px) and (max-width: 991px) {
+  .movie-box {
+    height: auto;
+
+    &__img {
+      height: 423px !important;
+    }
+  }
+  .main-right {
+    display: none;
+  }
+}
+
+/* Mobile  */
+@media only screen and (max-width: 767px) {
+  .hot-movie .movie-box {
+    width: 48%;
+  }  
+  .main-right {
+    display: none;
+  }
+
+  .movie-box {
+    height: auto;
+
+    &__img {
+      height: 227px !important;
+    }
+  }
+
+  .form-filter {
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    &__select {
+      width: 120px;
+      margin: 0 5px 10px 0;
+
+      &--year {
+        width: 80px;
+      }
+    }
+  }
+
+  .detail-movie {
+    &__heading {
+      flex-wrap: wrap;
+    }
+
+    &__image {
+      width: 100%;
+      background-size: 65% auto;
+      background-position: center;
+      margin-bottom: 10px;
+    }
+
+    &__info {
+      width: 100%;
+    }
+
+    &__title {
+      text-align: center;
+    }
+  }
+}

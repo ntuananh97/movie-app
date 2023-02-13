@@ -1,0 +1,228 @@
+.detail-movie {
+  background: #181818;
+  overflow: hidden;
+  padding: 10px;
+
+  &__image {
+    width: 45%;
+    flex-shrink: 0;
+    position: relative;
+    height: 400px;
+
+    background-image: url(../../images/avenger.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0 10px 10px 0;
+  }
+
+  &__btn-wrapper {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 10px 0px;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+  }
+
+  &__info {
+    width: 55%;
+  }
+
+  &__title {
+    font-weight: 400;
+    padding: 5px 0 0 0;
+    margin: 0 0 5px 0;
+    font-family: "UTMCafetaRegular";
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: #ff9658;
+    font-size: 30px;
+  }
+
+  &__text {
+    font-size: 12px;
+    color: #999;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  &__box {
+    margin: 0 0 8px 0;
+    padding: 5px 8px;
+    line-height: 26px;
+    font-size: 12px;
+    color: #bbb;
+    background: #222;
+  }
+
+  &__info-item {
+    >span:nth-child(1) {
+        margin-right: 10px;
+        font-weight: bold;
+    }
+
+    a:hover {
+      color: #ff9601;
+    }
+  }
+
+  &__film-status {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #777;
+  }
+
+  &__introduce {
+    height: 250px;
+    overflow-y: auto;
+  }
+
+  &__review {
+    margin-bottom: 0;
+  }
+
+  &__score-review {
+    line-height: 16px;
+    color: #bbb;
+    font-size: 13px;
+  }
+
+  &__star {
+    flex-wrap: wrap;
+  }
+
+  &__star-review {
+    // max-width: 200px;
+    margin-right: 10px;
+    cursor: pointer;
+
+    > img:not(:last-child) {
+        margin-right: 2px;
+    }
+  }
+
+  &__score {
+    color: #707070;
+    text-transform: uppercase;
+    font-size: 10px;
+    line-height: 16px;
+    margin-right: 4px;
+    display: none;
+  }
+
+  &__star-review:hover + .detail-movie__score-review .detail-movie__score {
+    display: inline-block;
+  }
+
+  &__box-heading {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ccc;
+    text-transform: uppercase;
+  }
+
+  &__lastest {
+    background: #282828;
+    overflow: hidden;
+    padding: 5px;
+    margin-top: 10px;
+
+    > h2 {
+      margin: 10px;
+    }
+  }
+
+  &__content {
+    margin: 30px 0 0 0;
+    font-size: 14px;
+    line-height: 1.5em;
+    color: #828282;
+    background: #282828;
+    padding: 10px;
+
+    > h2 {
+      margin: 0px 0 8px 0;
+    }
+  }
+
+  &__tags {
+    margin: 10px 0;
+
+    > h3 {
+      margin: 3px;
+      padding: 2px 5px;
+      color: #fff;
+
+      i {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  &__tags-link {
+    font-size: 12px;
+    color: #fafafa;
+    padding: 5px;
+    background: #3D4045;
+
+    line-height: 13px;
+    color: #fafafa;
+    font-weight: 500;
+    margin: 3px;
+    display: inline-block;
+
+    &:hover {
+      color: #4EB6FF;
+    }
+  }
+
+  &__keywords {
+    margin: 0 5px 0 0;
+    color: #5f5f5f;
+    display: inline-block;
+    font-size: 11px;
+  }
+
+  &__comments {
+    margin-top: 30px;
+  }
+}
+
+.recommend-movie {
+  margin-bottom: 30px;
+
+  &__heading {
+    margin: 0 0 10px 0;
+    font-family: Arial,Tahoma;
+    font-size: 14px;
+    color: #ff9601;
+    font-weight: 300;
+
+    > span {
+      display: inline-block;
+      margin: 0 5px 0;
+      padding: 12px 5px;
+      color: #fff;
+    }
+  }
+
+  .hot-movie-content {
+    gap: 6px;
+  }
+
+  .movie-box {
+   flex: 1;
+
+   &:hover .movie-sub {
+    display: none;
+   }
+  }
+}
