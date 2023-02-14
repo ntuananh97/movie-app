@@ -33,15 +33,15 @@ export const publicRouter = [
   },
   {
     path: ROUTER_PATH.NEW_MOVIE,
-    element: <DetailMoviePage />,
+    element: <CategoriesPage />,
   },
   {
     path: ROUTER_PATH.SINGLE_MOVIE,
-    element: <DetailMoviePage />,
+    element: <CategoriesPage />,
   },
   {
     path: ROUTER_PATH.ON_PLAYING_MOVIE,
-    element: <DetailMoviePage />,
+    element: <CategoriesPage />,
   },
   {
     path: ROUTER_PATH.WATCH_MOVIE,

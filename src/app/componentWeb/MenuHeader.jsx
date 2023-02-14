@@ -50,13 +50,17 @@ function MenuHeader() {
               {childDatas.map((child) => {
                 const idChild = child[item.attributesChild.id] || child;
                 const nameChild = child[item.attributesChild.name] || child;
+                const linkToChild =
+                  item.type === TYPE_NAVIGATION.year
+                    ? item.attributesChild.link({
+                        year: idChild,
+                      })
+                    : item.attributesChild.link(nameChild, idChild, {
+                        name: nameChild,
+                      });
                 return (
                   <li key={idChild} className="header-list-child-item">
-                    <Link to={item.attributesChild.link(nameChild, idChild, {
-                      name: nameChild
-                    })}>
-                      {nameChild}
-                    </Link>
+                    <Link to={linkToChild}>{nameChild}</Link>
                   </li>
                 );
               })}

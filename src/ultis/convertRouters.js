@@ -25,9 +25,13 @@ export const linkToCountriesMoviePage = (name, id, options = {}) => {
 }
 
 /**
- * @returns {string}
+ * @param {Object} options
+ * @returns {string} 
  */
-export const linkToNewMoviePage = () => `/phim-moi`
+export const linkToNewMoviePage = (options = {}) => {
+    const query = objectToParmas(options)
+    return `/phim-moi${query ? '?' : ''}${query}`
+}
 
 /**
  * @returns {string}

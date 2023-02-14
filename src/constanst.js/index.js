@@ -104,7 +104,7 @@ export const NAVIGATION = [
     {
         id: 5,
         name: NAME_PAGES.SINGLE_MOVIE,
-        linkParent: linkToMoviesPage,
+        linkParent: linkToMoviesPage(),
     },
     {
         id: 6,

@@ -43,9 +43,10 @@ export function guidGenerator() {
 /**
  * @param {{sort_by: string, region: string, year: number | string, with_genres: string,
  * typeApi: string, page: number, name: string}} options
+ * @param {boolean} isReturnOptions
  * @returns {Object}
  */
-export const convertOptionSearch = (options) => {
+export const convertOptionSearch = (options, isReturnOptions) => {
   const { sort_by, region, year, with_genres, page, typeApi,  } = options
   const isMovieType = TYPE_API.MOVIE  === typeApi;
   const optionSearchKey = {
@@ -64,5 +65,20 @@ export const convertOptionSearch = (options) => {
   if (region) optionSearch[optionSearchKey.region] = region.toLocaleUpperCase();
   // if (name && isMovieType) optionSearch[optionSearchKey.name] = name;
   if (year) optionSearch[optionSearchKey.year] = Number(year);
+
+  // if you need option to pass param
+  if (isReturnOptions) return optionSearch;
+
+  // In tv show, If you need link to navigate
+  // we always search country is region key and year is year key
+  if (!isMovieType && optionSearch[optionSearchKey.region]) {
+    optionSearch.region = optionSearch[optionSearchKey.region];
+    delete optionSearch[optionSearchKey.region]
+  }
+  if (!isMovieType && optionSearch[optionSearchKey.year]) {
+    optionSearch.year = optionSearch[optionSearchKey.year];
+    delete optionSearch[optionSearchKey.year]
+  }
+
   return optionSearch;
 };

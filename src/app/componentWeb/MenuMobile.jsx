@@ -40,7 +40,6 @@ function MenuMobile() {
           className="fa-solid fa-magnifying-glass header-mobile__search-icon"
           onClick={() => {
             headerSearchRef.current?.changeDisplaySearch?.();
-           
           }}
         ></i>
 
@@ -105,10 +104,18 @@ function MenuMobile() {
                       const idChild = child[item.attributesChild.id] || child;
                       const nameChild =
                         child[item.attributesChild.name] || child;
+                      const linkToChild =
+                        item.type === TYPE_NAVIGATION.year
+                          ? item.attributesChild.link({
+                              year: idChild,
+                            })
+                          : item.attributesChild.link(nameChild, idChild, {
+                              name: nameChild,
+                            });
                       return (
                         <li key={idChild} className="menu-mobile__item-lv1">
                           <Link
-                            to={item.attributesChild.link(nameChild, idChild)}
+                            to={linkToChild}
                             className="menu-mobile__item-link-lv1"
                           >
                             {nameChild}

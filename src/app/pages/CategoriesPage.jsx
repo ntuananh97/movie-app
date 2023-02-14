@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   linkToCountriesMoviePage,
   linkToGenresMoviePage,
+  linkToNewMoviePage,
 } from "../../ultis/convertRouters";
 import MovieBox from "../componentWeb/MovieBox";
 import { dicoverTvShows } from "../../services/tvShowServices";
@@ -20,6 +21,12 @@ const nameBreadcrumb = (nameCategory, isMovie, currentPath) => {
   switch (currentPath) {
     case ROUTER_PATH.COUNTRIES:
       name = `Phim ${name}`;
+      break;
+    case ROUTER_PATH.NEW_MOVIE:
+      name = `Phim mới`;
+      break;
+    case ROUTER_PATH.SINGLE_MOVIE:
+      name = `Phim lẻ`;
       break;
 
     default:
@@ -33,13 +40,14 @@ function CategoriesPage() {
   const queryUrl = useGetQueryParams();
   const currentPath = useCurrentPath();
 
-  const { name: nameCategory = NAME_PAGES.TV_SHOW } = queryUrl;
+  let { name: nameCategory } = queryUrl;
   let { id: categoryId } = useParams();
   const navigate = useNavigate();
 
   const [resultMovies, setResultMovies] = useState([]);
   const [pagination, setPagination] = useState({});
   const isMovie = Number(categoryId) !== 0;
+  if (!isMovie) nameCategory = NAME_PAGES.TV_SHOW
   const breadcrumb = useRef([
     {
       name: "",
@@ -47,13 +55,11 @@ function CategoriesPage() {
   ]);
 
   const fetchSearchMovies = () => {
-    const getDiscoverApi = categoryId !== "0" ? dicoveryMovies : dicoverTvShows;
+    const getDiscoverApi = isMovie ? dicoveryMovies : dicoverTvShows;
     let options = {
       ...queryUrl,
-
-      typeApi: isMovie ? TYPE_API.TV_SHOWS : TYPE_API.MOVIE,
+      typeApi: isMovie ? TYPE_API.MOVIE : TYPE_API.TV_SHOWS,
     };
-
     switch (currentPath) {
       case ROUTER_PATH.COUNTRIES:
         options = {
@@ -61,18 +67,21 @@ function CategoriesPage() {
           region: categoryId,
         };
         break;
+      case ROUTER_PATH.NEW_MOVIE:
+        break;
+      case ROUTER_PATH.SINGLE_MOVIE:
+        break;
 
       default:
         options = {
           ...options,
           with_genres:
-            (isMovie ? "" : categoryId) +
+            (isMovie ? categoryId : "") +
             (queryUrl.with_genres ? `,${queryUrl.with_genres}` : ""),
         };
         break;
     }
-
-    getDiscoverApi(convertOptionSearch(options)).then((data) => {
+    getDiscoverApi(convertOptionSearch(options, true)).then((data) => {
       setResultMovies(data.results);
       setPagination({
         page: data.page,
@@ -101,7 +110,7 @@ function CategoriesPage() {
         ...newQuery,
         page: targetPage || newQuery.page,
         with_genres: newQuery?.with_genres || "",
-        typeApi: isMovie ? TYPE_API.TV_SHOWS : TYPE_API.MOVIE,
+        typeApi: isMovie ? TYPE_API.MOVIE : TYPE_API.TV_SHOWS,
       });
 
       switch (currentPath) {
@@ -109,6 +118,17 @@ function CategoriesPage() {
           linkConvert = linkToCountriesMoviePage(nameCategory, categoryId, {
             ...options,
             name: nameCategory,
+          });
+          break;
+        case ROUTER_PATH.NEW_MOVIE:
+          linkConvert = linkToNewMoviePage({
+            ...options,
+            name: nameCategory,
+          });
+          break;
+        case ROUTER_PATH.SINGLE_MOVIE:
+          linkConvert = linkToNewMoviePage({
+            ...options,
           });
           break;
 
@@ -119,6 +139,7 @@ function CategoriesPage() {
           });
           break;
       }
+
 
       navigate(linkConvert);
     },
