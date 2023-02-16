@@ -28,6 +28,10 @@ export const publicRouter = [
     element: <DetailMoviePage />,
   },
   {
+    path: ROUTER_PATH.DETAIL_TV_SHOW,
+    element: <DetailMoviePage />,
+  },
+  {
     path: ROUTER_PATH.COUNTRIES,
     element: <CategoriesPage />,
   },

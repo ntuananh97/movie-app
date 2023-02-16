@@ -13,3 +13,5 @@ export const fetchNowPlayingMovies = (options) => getApi(converToUrlAPi('movie/n
 export const searchMovies = (options) => getApi(converToUrlAPi('search/movie', options))
 
 export const dicoveryMovies = (options) => getApi(converToUrlAPi('discover/movie', options))
+
+export const getDetailMovie = (id, options) => getApi(converToUrlAPi(`movie/${id}`, options))

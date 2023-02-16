@@ -9,6 +9,13 @@ import { encodeUrl } from "./encodeUrl"
 export const linkToDetailMoviePage = (name, id) => `/phim/${(encodeUrl(name))}/${id}`
 
 /**
+ * @param {string} name
+ * @param {number} id
+ * @returns {string}
+ */
+export const linkToDetailTvShowsPage = (name, id) => `/tvShow/${(encodeUrl(name))}/${id}`
+
+/**
  * @param {{query: string, page: number}} options
  * @returns {string}
  */
@@ -34,14 +41,22 @@ export const linkToNewMoviePage = (options = {}) => {
 }
 
 /**
- * @returns {string}
+ * @param {Object} options
+ * @returns {string} 
  */
-export const linkToMoviesPage = () => `/phim-le`
+export const linkToOnPlayingMoviePage = (options = {}) => {
+    const query = objectToParmas(options)
+    return `/phim-chieu-rap${query ? '?' : ''}${query}`
+}
 
 /**
- * @returns {string}
+ * @param {Object} options
+ * @returns {string} 
  */
-export const linkToOnPlayingMoviePage = () => `/phim-chieu-rap`
+export const linkToMoviesPage = (options = {}) => {
+    const query = objectToParmas(options)
+    return `/phim-le${query ? '?' : ''}${query}`
+}
 
 /**
  * @param {string} name

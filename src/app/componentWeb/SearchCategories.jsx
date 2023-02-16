@@ -1,18 +1,27 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { COUNTRIES, SORT_MOVIES, SORT_TV_SHOWS } from "../../constanst.js";
+import {
+  COUNTRIES,
+  ROUTER_PATH,
+  SORT_MOVIES,
+  SORT_TV_SHOWS,
+} from "../../constanst.js";
 import { selectGenresMovies } from "../../selector/movieSelector";
 import { renderYearList } from "../../ultis/index.js";
 import Select from "../common/Select";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useGetGenresTvShows } from "../../hooks/tvShow.js";
+import { useCurrentPath } from "../../hooks/index.js";
 
 const YEAR_LIST = renderYearList().map((x) => ({ id: x, name: x.toString() }));
 
 function SearchCategories({ queryUrl = {}, onSubmit }) {
   let { id: categoryId } = useParams();
+  const currentPath = useCurrentPath();
+
   const isTvShow = Number(categoryId) === 0;
+  const isOnPlayMoviePage = ROUTER_PATH.ON_PLAYING_MOVIE === currentPath;
 
   const { list: genresMovieList } = useSelector((state) =>
     selectGenresMovies(state)
@@ -51,27 +60,32 @@ function SearchCategories({ queryUrl = {}, onSubmit }) {
   return (
     <div className="search-categories">
       <form className="form-filter flex-a-c" onSubmit={(e) => handleSubmit(e)}>
-        <div className="form-filter__item">
-          <Select
-            name="sort_by"
-            id="sort_by"
-            options={sortOptionSelect}
-            placeholder="Sắp xếp"
-            onChange={(val) => handleChangeSelect(val, "sort_by")}
-            value={queryFilter.sort_by || ""}
-            isTvShow={isTvShow}
-          />
-        </div>
-        <div className="form-filter__item">
-          <Select
-            name="genre"
-            id="genre"
-            options={genresOptionSelect}
-            placeholder="Thể Loại"
-            onChange={(val) => handleChangeSelect(val, "with_genres")}
-            value={queryFilter.with_genres || ""}
-          />
-        </div>
+        {!isOnPlayMoviePage && (
+          <>
+            <div className="form-filter__item">
+              <Select
+                name="sort_by"
+                id="sort_by"
+                options={sortOptionSelect}
+                placeholder="Sắp xếp"
+                onChange={(val) => handleChangeSelect(val, "sort_by")}
+                value={queryFilter.sort_by || ""}
+                isTvShow={isTvShow}
+              />
+            </div>
+            <div className="form-filter__item">
+              <Select
+                name="genre"
+                id="genre"
+                options={genresOptionSelect}
+                placeholder="Thể Loại"
+                onChange={(val) => handleChangeSelect(val, "with_genres")}
+                value={queryFilter.with_genres || ""}
+              />
+            </div>
+          </>
+        )}
+
         <div className="form-filter__item">
           <Select
             name="country"
@@ -82,17 +96,20 @@ function SearchCategories({ queryUrl = {}, onSubmit }) {
             value={queryFilter.region || ""}
           />
         </div>
-        <div className="form-filter__item">
-          <Select
-            name="year"
-            id="year"
-            options={YEAR_LIST}
-            placeholder="Năm"
-            className="form-filter__select--year"
-            onChange={(val) => handleChangeSelect(val, "year")}
-            value={queryFilter.year || ""}
-          />
-        </div>
+        {!isOnPlayMoviePage && (
+          <div className="form-filter__item">
+            <Select
+              name="year"
+              id="year"
+              options={YEAR_LIST}
+              placeholder="Năm"
+              className="form-filter__select--year"
+              onChange={(val) => handleChangeSelect(val, "year")}
+              value={queryFilter.year || ""}
+            />
+          </div>
+        )}
+
         <button type="submit" className="form-filter__btn btn">
           Lọc phim
         </button>

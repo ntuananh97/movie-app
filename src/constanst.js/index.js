@@ -109,7 +109,7 @@ export const NAVIGATION = [
     {
         id: 6,
         name: NAME_PAGES.ON_PLAYING_MOVIE,
-        linkParent: linkToOnPlayingMoviePage,
+        linkParent: linkToOnPlayingMoviePage(),
     },
     {
         id: 7,
@@ -163,6 +163,7 @@ export const ROUTER_PATH = {
     CATEGORIES: '/the-loai/:name/:id',
     SEARCH: '/tim-kiem',
     DETAIL_MOVIE: '/phim/:name/:id',
+    DETAIL_TV_SHOW: '/tvShow/:name/:id',
     COUNTRIES: '/quoc-gia/:name/:id',
     NEW_MOVIE: '/phim-moi',
     SINGLE_MOVIE: '/phim-le',

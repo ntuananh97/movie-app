@@ -11,3 +11,5 @@ export const fetchOnTheAirTvShows = (options) => getApi(converToUrlAPi('tv/on_th
 export const dicoverTvShows = (options) => getApi(converToUrlAPi('discover/tv', options))
 
 export const fetchGenresTvShow = (options) => getApi(converToUrlAPi('/genre/tv/list', options))
+
+export const getDetailTvShow = (id, options) => getApi(converToUrlAPi(`tv/${id}`, options))

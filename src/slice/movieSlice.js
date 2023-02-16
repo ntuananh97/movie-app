@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchGenresMoviesAction, fetchNowPlayingMoviesAction, fetchPopularMoviesAction, fetchUpcomingMoviesAction } from "../actions/movie";
+import { fetchGenresMoviesAction, fetchNowPlayingMoviesAction, fetchPopularMoviesAction, fetchUpcomingMoviesAction, getDetailMovieOrTvShowAction } from "../actions/movie";
 
 // function rejectAction  (state) {
 //   state.loading = false
@@ -24,6 +24,10 @@ const initialState = {
   genresMovies: {
     loading: true,
     list: [],
+  },
+  detailMovieOrTvShow: {
+    loading: true,
+    detail: {},
   },
 };
 
@@ -75,6 +79,14 @@ export const movieSlice = createSlice({
     builder.addCase(fetchGenresMoviesAction.rejected, (state, action) => {
       state.genresMovies.loading = false;
 
+    });
+    // get detail movie or tv show
+    builder.addCase(getDetailMovieOrTvShowAction.fulfilled, (state, action) => {
+      state.detailMovieOrTvShow.loading = false;
+      state.detailMovieOrTvShow.detail = action.payload
+    });
+    builder.addCase(getDetailMovieOrTvShowAction.rejected, (state, action) => {
+      state.detailMovieOrTvShow.loading = false;
     });
   },
 });

@@ -4,12 +4,13 @@ import SearchCategories from "../componentWeb/SearchCategories";
 import LayoutWithTopMovie from "../Layout/LayoutWithTopMovie";
 import Pagination from "../common/Pagination";
 import { useCurrentPath, useGetQueryParams } from "../../hooks";
-import { dicoveryMovies } from "../../services/movieServices";
+import { dicoveryMovies, fetchNowPlayingMovies } from "../../services/movieServices";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   linkToCountriesMoviePage,
   linkToGenresMoviePage,
   linkToNewMoviePage,
+  linkToOnPlayingMoviePage,
 } from "../../ultis/convertRouters";
 import MovieBox from "../componentWeb/MovieBox";
 import { dicoverTvShows } from "../../services/tvShowServices";
@@ -27,6 +28,9 @@ const nameBreadcrumb = (nameCategory, isMovie, currentPath) => {
       break;
     case ROUTER_PATH.SINGLE_MOVIE:
       name = `Phim lẻ`;
+      break;
+    case ROUTER_PATH.ON_PLAYING_MOVIE:
+      name = `Phim chiếu rạp`;
       break;
 
     default:
@@ -55,7 +59,7 @@ function CategoriesPage() {
   ]);
 
   const fetchSearchMovies = () => {
-    const getDiscoverApi = isMovie ? dicoveryMovies : dicoverTvShows;
+    let getDiscoverApi = isMovie ? dicoveryMovies : dicoverTvShows;
     let options = {
       ...queryUrl,
       typeApi: isMovie ? TYPE_API.MOVIE : TYPE_API.TV_SHOWS,
@@ -70,6 +74,9 @@ function CategoriesPage() {
       case ROUTER_PATH.NEW_MOVIE:
         break;
       case ROUTER_PATH.SINGLE_MOVIE:
+        break;
+      case ROUTER_PATH.ON_PLAYING_MOVIE:
+        getDiscoverApi = fetchNowPlayingMovies
         break;
 
       default:
@@ -131,6 +138,11 @@ function CategoriesPage() {
             ...options,
           });
           break;
+        case ROUTER_PATH.ON_PLAYING_MOVIE:
+          linkConvert = linkToOnPlayingMoviePage({
+            ...options,
+          });
+          break;
 
         default:
           linkConvert = linkToGenresMoviePage(nameCategory, categoryId, {
@@ -167,6 +179,7 @@ function CategoriesPage() {
                 pathImage={item.poster_path}
                 name={item.title || item.name}
                 voteAverage={item.vote_average}
+                isTvShow={!isMovie}
               />
             ))}
           </div>

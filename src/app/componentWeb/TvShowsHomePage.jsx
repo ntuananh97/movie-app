@@ -94,6 +94,7 @@ function TvShowsHomePage() {
                 pathImage={item.poster_path}
                 name={item.name}
                 voteAverage={item.vote_average}
+                isTvShow
               />
             ))}
           </div>
@@ -117,6 +118,7 @@ function TvShowsHomePage() {
                 pathImage={item.poster_path}
                 name={item.name}
                 voteAverage={item.vote_average}
+                isTvShow
               />
             ))}
           </div>
@@ -140,6 +142,7 @@ function TvShowsHomePage() {
                 pathImage={item.poster_path}
                 name={item.name}
                 voteAverage={item.vote_average}
+                isTvShow
               />
             ))}
           </div>

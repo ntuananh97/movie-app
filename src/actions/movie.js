@@ -4,7 +4,9 @@ import {
   fetchUpcomingMovies,
   fetchNowPlayingMovies,
   fetchGenresMovies,
+  getDetailMovie,
 } from "../services/movieServices";
+import { getDetailTvShow } from "../services/tvShowServices";
 
 export const fetchPopularMoviesAction = createAsyncThunk(
   "movie/fetchPopularMovies",
@@ -38,6 +40,14 @@ export const fetchGenresMoviesAction = createAsyncThunk(
   async (options) => {
     const response = await fetchGenresMovies(options);
 
+    return response;
+  }
+);
+
+export const getDetailMovieOrTvShowAction = createAsyncThunk(
+  "movie/getDetailMovieOrTvShow",
+  async ({isMovie, id, options}) => {
+    const response = await isMovie ? getDetailMovie(id, options) : getDetailTvShow(id, options);
     return response;
   }
 );

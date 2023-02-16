@@ -4,6 +4,7 @@ import {
   fetchTopRatingTvShows,
   fetchOnTheAirTvShows,
   fetchGenresTvShow,
+  getDetailTvShow,
 } from "../services/tvShowServices";
 
 export const fetchPopularTvShowsAction = createAsyncThunk(
@@ -41,3 +42,4 @@ export const fetchGenresTvShowsAction = createAsyncThunk(
     return response;
   }
 );
+
